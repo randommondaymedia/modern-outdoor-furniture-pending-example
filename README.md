@@ -1,0 +1,1 @@
+# modern-outdoor-furniture-pending-example
