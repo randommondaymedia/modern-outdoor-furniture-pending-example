@@ -1,0 +1,186 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import pagesData from '../data/pages.json';
+import siteData from '../data/site.json';
+
+export async function getStaticPaths() {
+  const pages = (await import('../data/pages.json')).default;
+  return pages.map((page) => ({ params: { slug: page.slug }, props: { page } }));
+}
+
+const { page } = Astro.props;
+const brand = siteData.brand;
+const silo = siteData.silos.find((s) => s.slug === page.siloSlug);
+const heroImage = silo?.imagePath ?? siteData.heroImagePath;
+const related = pagesData
+  .filter((p) => p.slug !== page.slug && page.relatedSlugs.includes(p.slug))
+  .slice(0, 6);
+
+// For hub pages: pull every spoke that lives in this silo, sorted by
+// template (BEST_OF first since it's the highest-intent spoke).
+const TEMPLATE_RANK = { BEST_OF: 0, COMPARISON: 1, REVIEW: 2, ROUNDUP: 3, VS_PAGE: 4, HOW_TO: 5, INFORMATIONAL: 6, CATEGORY_HUB: 7 };
+const siblingSpokes = pagesData
+  .filter((p) => p.siloSlug === page.siloSlug && !p.isHubPage)
+  .sort((a, b) => (TEMPLATE_RANK[a.template] ?? 99) - (TEMPLATE_RANK[b.template] ?? 99));
+
+// Display niceties — Site.name comes from the dashboard niche field, so
+// title-case for the breadcrumb root + footer parity.
+function titleCase(s) {
+  return s.replace(/\b\w/g, (c) => c.toUpperCase());
+}
+const siteDisplayName = titleCase(siteData.name);
+const siloDisplayName = titleCase(page.siloName);
+
+// Updated date — fixed to the build time so the page doesn't claim
+// freshness it doesn't have. Astro re-renders on every build anyway.
+const updatedLabel = new Date().toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
+
+// Approximate read time at ~220 wpm. Placeholder pages get a small
+// floor so the meta row never reads "0 min".
+const wordsApprox = (page.outline || '').replace(/<[^>]+>/g, ' ').trim().split(/\s+/).filter(Boolean).length;
+const readMin = Math.max(2, Math.round(wordsApprox / 220));
+
+const TEMPLATE_LABELS = {
+  REVIEW: 'Review', BEST_OF: 'Best Of', COMPARISON: 'Comparison', VS_PAGE: 'Vs',
+  ROUNDUP: 'Roundup', HOW_TO: 'How-To', INFORMATIONAL: 'Guide', CATEGORY_HUB: 'Hub',
+};
+function templateLabel(t) { return TEMPLATE_LABELS[t] || 'Guide'; }
+---
+<BaseLayout title={page.metaTitle} description={page.metaDescription}>
+
+  {page.isHubPage ? (
+    <>
+      <!-- HUB HERO -->
+      <section class="spoke-hero">
+        <div class="spoke-hero-bg" style={`background-image: url('${heroImage}');`}></div>
+        <div class="spoke-hero-ov"></div>
+        <div class="spoke-hero-inner">
+          <div class="crumb">
+            <a href="/">{siteDisplayName}</a><span class="crumb-sep">›</span>
+            <span style="color:rgba(255,255,255,.60)">{siloDisplayName}</span>
+          </div>
+          <h1 class="spoke-h1">{page.title}</h1>
+          {silo?.description && (
+            <p class="hub-intro">{silo.description}</p>
+          )}
+          <div class="spoke-meta">
+            <span>{siblingSpokes.length} guide{siblingSpokes.length === 1 ? '' : 's'}</span>
+            <span>Updated {updatedLabel}</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- HUB GRID — every spoke in this silo -->
+      <section class="hub-section" style="background:var(--cream);border-top:none;border-bottom:none">
+        <div style="max-width:1320px;margin:0 auto;padding:0 32px">
+          <div class="sec-head">
+            <div>
+              <div class="sec-label">All Guides</div>
+              <h2 class="sec-title">Browse {siloDisplayName} Guides</h2>
+            </div>
+            <a href="/" class="sec-link">All categories →</a>
+          </div>
+
+          {siblingSpokes.length === 0 ? (
+            <div class="hub-empty">
+              <p>Guides for this category are publishing soon. <a href="/">See our other categories →</a></p>
+            </div>
+          ) : (
+            <div class="hub-grid">
+              {siblingSpokes.map((spoke) => (
+                <a href={spoke.url} class="hub-card" style="text-decoration:none;color:inherit">
+                  <div class="hub-type">{templateLabel(spoke.template)}</div>
+                  <div class="hub-title">{spoke.title}</div>
+                  <div class="hub-desc">{spoke.metaDescription}</div>
+                  <div class="hub-cta">Read guide →</div>
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
+    </>
+  ) : (
+    <>
+  <!-- SPOKE HERO -->
+  <section class="spoke-hero">
+    <div class="spoke-hero-bg" style={`background-image: url('${heroImage}');`}></div>
+    <div class="spoke-hero-ov"></div>
+    <div class="spoke-hero-inner">
+      <div class="crumb">
+        <a href="/">{siteDisplayName}</a><span class="crumb-sep">›</span>
+        <a href={`/${page.siloSlug}/`}>{siloDisplayName}</a><span class="crumb-sep">›</span>
+        <span style="color:rgba(255,255,255,.60)">{page.title}</span>
+      </div>
+      <h1 class="spoke-h1">{page.title}</h1>
+      <div class="spoke-meta">
+        {brand.editorByline && <span>By {brand.editorByline}{brand.editorRole ? ` · ${brand.editorRole}` : ''}</span>}
+        <span>Updated {updatedLabel}</span>
+        <span>{readMin} min read</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- SPOKE LAYOUT — article + sidebar grid -->
+  <div class="spoke-layout">
+    <div class="spoke-content" data-status={page.status}>
+      {page.status === 'DRAFT' ? (
+        <>
+          <aside class="affiliate-disclosure" role="note">
+            <strong>Disclosure:</strong> This page contains affiliate links. We may earn a
+            commission if you purchase through them — at no extra cost to you.
+          </aside>
+          <article class="article">
+            <p class="placeholder">
+              Our experts are currently reviewing the best <strong>{page.keyword || page.title}</strong> options.
+              Check back soon, or see our full <a href="/">{siteData.niche} guide</a>.
+            </p>
+          </article>
+        </>
+      ) : (
+        <Fragment set:html={page.outline} />
+      )}
+    </div>
+
+    <!-- SIDEBAR -->
+    <aside class="sb">
+      <div class="sb-box">
+        <div class="sb-head">Our Top Picks Right Now</div>
+        <div class="sb-body">
+          {[1, 2, 3].map((rank) => (
+            <div class="sb-prod">
+              <div class="sb-thumb"></div>
+              <div>
+                <div class="sb-rank">#{rank}</div>
+                <div class="sb-name">Loading {brand.productNounSingular} pick #{rank}</div>
+                <div class="sb-stars">★★★★★</div>
+                <div class="sb-price">— · {brand.productNounSingular}</div>
+              </div>
+            </div>
+          ))}
+          <a href="/" class="sb-btn">See Full Rankings →</a>
+        </div>
+      </div>
+
+      {related.length > 0 && (
+        <div class="sb-box">
+          <div class="sb-head">Related Articles</div>
+          <div class="sb-body">
+            <ul class="rl-list">
+              {related.map((item) => (
+                <li class="rl-item">
+                  <a href={`/${item.slug}/`}>
+                    <span class="rl-type">{templateLabel(item.template)}</span>
+                    {item.title}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      )}
+    </aside>
+  </div>
+    </>
+  )}
+</BaseLayout>
