@@ -1,0 +1,114 @@
+{
+  "name": "modern outdoor furniture",
+  "domain": "modern-outdoor-furniture-pending.example",
+  "niche": "modern outdoor furniture",
+  "description": "We've tested dozens of patio furniture sets to find the ones that actually hold up to weather, look great for years, and won't empty your wallet. Here's what we'd buy.",
+  "affiliateDisclosure": "This site contains affiliate links. We may earn a commission at no extra cost to you.",
+  "heroImagePath": "/images/hero.jpg",
+  "silos": [
+    {
+      "slug": "garden-furniture-outdoor-set",
+      "name": "Garden Furniture Outdoor Set",
+      "keywordTheme": "garden furniture outdoor set",
+      "description": "Topical silo anchored on \"garden furniture outdoor set\".",
+      "imagePath": "/images/silo-garden-furniture-outdoor-set.jpg",
+      "hubUrl": "/garden-furniture-outdoor-set/",
+      "spokeCount": 17
+    },
+    {
+      "slug": "modern-dining-rooms-sets",
+      "name": "Modern Dining Rooms Sets",
+      "keywordTheme": "modern dining rooms sets",
+      "description": "Topical silo anchored on \"modern dining rooms sets\".",
+      "imagePath": "/images/silo-modern-dining-rooms-sets.jpg",
+      "hubUrl": "/modern-dining-rooms-sets/",
+      "spokeCount": 49
+    },
+    {
+      "slug": "modern-style-dining-room-sets",
+      "name": "Modern Style Dining Room Sets",
+      "keywordTheme": "modern style dining room sets",
+      "description": "Topical silo anchored on \"modern style dining room sets\".",
+      "imagePath": "/images/silo-modern-style-dining-room-sets.jpg",
+      "hubUrl": "/modern-style-dining-room-sets/",
+      "spokeCount": 59
+    },
+    {
+      "slug": "outdoor-covers-for-furniture",
+      "name": "Outdoor Covers For Furniture",
+      "keywordTheme": "outdoor covers for furniture",
+      "description": "Topical silo anchored on \"outdoor covers for furniture\".",
+      "imagePath": "/images/silo-outdoor-covers-for-furniture.jpg",
+      "hubUrl": "/outdoor-covers-for-furniture/",
+      "spokeCount": 12
+    },
+    {
+      "slug": "outdoor-furniture-patio",
+      "name": "Outdoor Furniture Patio",
+      "keywordTheme": "outdoor furniture patio",
+      "description": "Topical silo anchored on \"outdoor furniture patio\".",
+      "imagePath": "/images/silo-outdoor-furniture-patio.jpg",
+      "hubUrl": "/outdoor-furniture-patio/",
+      "spokeCount": 59
+    }
+  ],
+  "brand": {
+    "tagline": "Modern Outdoor Furniture, Honestly Rated",
+    "hubLabel": "Guides, How-Tos & Comparisons",
+    "hubTitle": "Everything You Need to Know About Outdoor Furniture",
+    "editorRole": "Outdoor Living Editor",
+    "trustStats": [
+      {
+        "label": "Paid Placements",
+        "value": "0"
+      },
+      {
+        "label": "Editor-Curated",
+        "value": "100%"
+      },
+      {
+        "label": "Updated Rankings",
+        "value": "Weekly"
+      },
+      {
+        "label": "Affiliate Disclosed",
+        "value": "All"
+      }
+    ],
+    "heroEyebrow": "2025 Expert Rankings · Updated Monthly",
+    "paletteName": "forest",
+    "editorByline": "By Marcus Webb",
+    "newsletterCta": "Subscribe",
+    "heroHeadlineEm": "Tested & Ranked",
+    "heroPrimaryCta": "Shop Our Top Picks →",
+    "newsletterDesc": "Get our latest rankings, seasonal buying guides, and care tips—delivered to your inbox every Friday.",
+    "quickNavLabels": [
+      "Best Under $1,500",
+      "Dining Sets",
+      "Small Spaces",
+      "Weather-Resistant",
+      "Modern Sectionals",
+      "Buying Guide"
+    ],
+    "bestsellerLabel": "Also Worth Considering",
+    "bestsellerTitle": "More Top-Rated Outdoor Furniture",
+    "comparisonTitle": "All Five Sets Side by Side",
+    "guideBannerDesc": "A breakdown of styles, materials, and layouts to help you pick the right set for your space. Plus durability ratings and maintenance tips.",
+    "heroDescription": "We've tested dozens of patio furniture sets to find the ones that actually hold up to weather, look great for years, and won't empty your wallet. Here's what we'd buy.",
+    "newsletterTitle": "New Patio Furniture Reviews, Every Week",
+    "guideBannerLabel": "Complete 2025 Buyer's Guide",
+    "guideBannerTitle": "Best Modern Patio Furniture Under $2,000",
+    "heroHeadlineLead": "The Best Modern Outdoor Furniture,",
+    "heroSecondaryCta": "How We Test",
+    "productGridLabel": "Editor's Choice · January 2025",
+    "productGridTitle": "Our Top-Ranked Modern Outdoor Furniture Right Now",
+    "footerDescription": "We test modern outdoor furniture sets in real conditions—sun, rain, wind, and time. Our reviews cut through marketing speak to show you what's actually durable, functional, and worth the investment.",
+    "newsletterEyebrow": "Stay in the Loop",
+    "productNounPlural": "furniture sets",
+    "announcementBarText": "Free shipping on orders over $299 · Spring collection now available",
+    "productNounSingular": "furniture set"
+  },
+  "paletteName": "forest",
+  "generatedAt": "2026-05-11T00:16:26.783Z",
+  "factoryVersion": "0.1.0"
+}
